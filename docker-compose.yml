@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  # ─── Banco de Dados PostgreSQL ───────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: governanca-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: governanca
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Coloque o script SQL de backup aqui para inicialização automática:
+      # - ./BackupGovernanca.sql:/docker-entrypoint-initdb.d/01-backup.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d governanca"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── Backend .NET API ─────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./governanca-backend
+      dockerfile: Dockerfile
+    container_name: governanca-api
+    restart: unless-stopped
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=governanca;Username=postgres;Password=${POSTGRES_PASSWORD:-postgres}"
+      ASPNETCORE_ENVIRONMENT: Production
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ─── Frontend React ───────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./governanca
+      dockerfile: Dockerfile
+      args:
+        # URL da API acessível pelo navegador do usuário final
+        # Em produção, use o domínio público do backend (ex: https://api.seudominio.com.br)
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:5000}
+    container_name: governanca-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

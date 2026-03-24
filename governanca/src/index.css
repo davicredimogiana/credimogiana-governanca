@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Governança Mogiana - Design System */
+/* Inspirado nas cores do Sicoob Credimogiana */
+
+
+@layer base {
+  :root {
+    /* Cores principais baseadas na identidade Sicoob Credimogiana */
+    --background: 180 20% 99%;
+    --foreground: 200 25% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 200 25% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 200 25% 15%;
+
+    /* Teal principal do Sicoob */
+    --primary: 174 58% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Verde-lima de destaque */
+    --secondary: 82 65% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 180 15% 95%;
+    --muted-foreground: 200 15% 45%;
+
+    /* Teal claro para acentos */
+    --accent: 174 45% 92%;
+    --accent-foreground: 174 58% 28%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 180 20% 88%;
+    --input: 180 20% 88%;
+    --ring: 174 58% 38%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 174 45% 18%;
+    --sidebar-foreground: 174 20% 95%;
+    --sidebar-primary: 82 65% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 174 40% 25%;
+    --sidebar-accent-foreground: 174 20% 95%;
+    --sidebar-border: 174 35% 25%;
+    --sidebar-ring: 82 65% 55%;
+
+    /* Custom tokens */
+    --success: 152 69% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(174 58% 38%), hsl(174 58% 28%));
+    --gradient-secondary: linear-gradient(135deg, hsl(82 65% 50%), hsl(82 65% 40%));
+    --gradient-hero: linear-gradient(135deg, hsl(174 58% 20%), hsl(174 45% 25%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(180 20% 98%));
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 hsl(174 20% 20% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(174 20% 20% / 0.08), 0 2px 4px -2px hsl(174 20% 20% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(174 20% 20% / 0.1), 0 4px 6px -4px hsl(174 20% 20% / 0.08);
+    --shadow-xl: 0 20px 25px -5px hsl(174 20% 20% / 0.12), 0 8px 10px -6px hsl(174 20% 20% / 0.08);
+    --shadow-glow: 0 0 20px hsl(174 58% 38% / 0.25);
+  }
+
+  .dark {
+    --background: 200 25% 8%;
+    --foreground: 180 20% 95%;
+
+    --card: 200 25% 12%;
+    --card-foreground: 180 20% 95%;
+
+    --popover: 200 25% 12%;
+    --popover-foreground: 180 20% 95%;
+
+    --primary: 174 55% 50%;
+    --primary-foreground: 200 25% 8%;
+
+    --secondary: 82 60% 50%;
+    --secondary-foreground: 200 25% 8%;
+
+    --muted: 200 20% 18%;
+    --muted-foreground: 180 15% 60%;
+
+    --accent: 174 40% 20%;
+    --accent-foreground: 174 55% 70%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 200 20% 20%;
+    --input: 200 20% 20%;
+    --ring: 174 55% 50%;
+
+    --sidebar-background: 200 25% 6%;
+    --sidebar-foreground: 180 20% 95%;
+    --sidebar-primary: 82 60% 50%;
+    --sidebar-primary-foreground: 200 25% 8%;
+    --sidebar-accent: 200 20% 15%;
+    --sidebar-accent-foreground: 180 20% 95%;
+    --sidebar-border: 200 20% 15%;
+    --sidebar-ring: 82 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/50;
+    box-shadow: var(--shadow-md);
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .status-badge-success {
+    @apply bg-success/15 text-success;
+  }
+
+  .status-badge-warning {
+    @apply bg-warning/15 text-warning;
+  }
+
+  .status-badge-info {
+    @apply bg-info/15 text-info;
+  }
+
+  .status-badge-error {
+    @apply bg-destructive/15 text-destructive;
+  }
+
+  .status-badge-pending {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .member-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors;
+  }
+
+  .member-badge-diretoria {
+    @apply bg-primary/15 text-primary border border-primary/20;
+  }
+
+  .member-badge-gestor {
+    @apply bg-secondary/15 text-secondary border border-secondary/20;
+  }
+
+  .member-badge-lider {
+    @apply bg-info/15 text-info border border-info/20;
+  }
+
+  .member-badge-cooperado {
+    @apply bg-muted text-muted-foreground border border-border;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0; 
+      transform: translateY(20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  @keyframes slideInLeft {
+    from { 
+      opacity: 0; 
+      transform: translateX(-20px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateX(0); 
+    }
+  }
+
+  @keyframes scaleIn {
+    from { 
+      opacity: 0; 
+      transform: scale(0.95); 
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1); 
+    }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-5 { animation-delay: 0.5s; }
+}

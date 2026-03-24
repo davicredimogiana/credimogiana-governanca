@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Governanca.API/Governanca.API.csproj" />
+  <Project Path="Governanca.Application/Governanca.Application.csproj" />
+  <Project Path="Governanca.Domain/Governanca.Domain.csproj" />
+  <Project Path="Governanca.Infrastructure/Governanca.Infrastructure.csproj" />
+</Solution>

@@ -1,0 +1,11 @@
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\bin\Debug\net10.0\Governanca.Domain.deps.json
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\bin\Debug\net10.0\Governanca.Domain.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\bin\Debug\net10.0\Governanca.Domain.pdb
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.AssemblyInfoInputs.cache
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.AssemblyInfo.cs
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.csproj.CoreCompileInputs.cache
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\refint\Governanca.Domain.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\Governanca.Domain.pdb
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Domain\obj\Debug\net10.0\ref\Governanca.Domain.dll

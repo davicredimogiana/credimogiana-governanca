@@ -1,0 +1,15 @@
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\bin\Debug\net10.0\Governanca.Application.deps.json
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\bin\Debug\net10.0\Governanca.Application.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\bin\Debug\net10.0\Governanca.Application.pdb
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\bin\Debug\net10.0\Governanca.Domain.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\bin\Debug\net10.0\Governanca.Domain.pdb
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.csproj.AssemblyReference.cache
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.AssemblyInfoInputs.cache
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.AssemblyInfo.cs
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.csproj.CoreCompileInputs.cache
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governan.E2F52638.Up2Date
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\refint\Governanca.Application.dll
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\Governanca.Application.pdb
+C:\CrediMogianaDevelopements\credimogiana-governanca2\governanca-backend\Governanca.Application\obj\Debug\net10.0\ref\Governanca.Application.dll
