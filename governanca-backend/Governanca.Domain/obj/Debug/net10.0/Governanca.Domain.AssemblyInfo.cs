@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Governanca.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+676d5a718928c0a640880fa952a4c910f13b7002")]
 [assembly: System.Reflection.AssemblyProductAttribute("Governanca.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Governanca.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

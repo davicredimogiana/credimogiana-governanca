@@ -8,12 +8,44 @@
     ".NETCoreApp,Version=v10.0": {
       "Governanca.API/1.0.0": {
         "dependencies": {
+          "AWSSDK.Extensions.NETCore.Setup": "4.0.3.26",
+          "AWSSDK.S3": "4.0.19.1",
           "Governanca.Application": "1.0.0",
           "Governanca.Infrastructure": "1.0.0",
           "Swashbuckle.AspNetCore": "10.1.5"
         },
         "runtime": {
           "Governanca.API.dll": {}
+        }
+      },
+      "AWSSDK.Core/4.0.3.19": {
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.3.19"
+          }
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup/4.0.3.26": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.19"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.3.26"
+          }
+        }
+      },
+      "AWSSDK.S3/4.0.19.1": {
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.19"
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.19.1"
+          }
         }
       },
       "Dapper/2.1.72": {
@@ -98,6 +130,7 @@
       },
       "Governanca.Infrastructure/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "4.0.19.1",
           "Dapper": "2.1.72",
           "Governanca.Application": "1.0.0",
           "Governanca.Domain": "1.0.0",
@@ -117,6 +150,27 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AWSSDK.Core/4.0.3.19": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8zIzN59+J6arYSyFuhnSxPepr8ff4p6li+MxKUUnqCgwZqQ+icEGJK/23c1USIEALqZZ5gdiITuH2sOZWQom+Q==",
+      "path": "awssdk.core/4.0.3.19",
+      "hashPath": "awssdk.core.4.0.3.19.nupkg.sha512"
+    },
+    "AWSSDK.Extensions.NETCore.Setup/4.0.3.26": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AkS58bk3ksCUreIrOWdP+eSKnSNtZnZ9Ahx2PX7xxkYTTk9yuYfRaIeZz31bQoaeRZzobrojKqCQVZ3NiiYnkw==",
+      "path": "awssdk.extensions.netcore.setup/4.0.3.26",
+      "hashPath": "awssdk.extensions.netcore.setup.4.0.3.26.nupkg.sha512"
+    },
+    "AWSSDK.S3/4.0.19.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DCTFohRB53/g2kaz7cUX3ZTyFTbRErj5JvT4HrquKTvXvUpY/vUyUMGEVWoC0UXmxalYaPAR8tO7WgEJRJjM9w==",
+      "path": "awssdk.s3/4.0.19.1",
+      "hashPath": "awssdk.s3.4.0.19.1.nupkg.sha512"
     },
     "Dapper/2.1.72": {
       "type": "package",

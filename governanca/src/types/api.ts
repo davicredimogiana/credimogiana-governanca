@@ -223,6 +223,10 @@ export interface TarefaDelegada {
 export interface ConfiguracoesSistema {
   enviarEmailAutomatico: boolean;
   enviarEmailAutomaticoPautas: boolean;
+  webhookN8nReceberAtas?: string;
+  webhookN8nEnviarAtas?: string;
+  emailRemetente?: string;
+  nomeRemetente?: string;
 }
 
 export interface DashboardStats {

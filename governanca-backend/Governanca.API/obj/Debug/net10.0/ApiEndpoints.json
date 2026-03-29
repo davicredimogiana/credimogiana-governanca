@@ -82,10 +82,20 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "Governanca.Domain.Entities.ConfiguracoesSistema",
+        "Type": "System.Text.Json.JsonElement",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Governanca.Api.Controllers.DashboardController",
+    "Method": "ObterResumo",
+    "RelativePath": "api/dashboard",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -835,7 +845,7 @@
     "Parameters": [
       {
         "Name": "input",
-        "Type": "Governanca.Domain.Entities.ProcessamentoGravacao",
+        "Type": "Governanca.Api.Controllers.CriarProcessamentoRequest",
         "IsRequired": true
       }
     ],
@@ -890,6 +900,109 @@
         "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Governanca.Api.Controllers.ProcessamentosController",
+    "Method": "GerarUrlDownload",
+    "RelativePath": "api/processamentos/{id}/download-url",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Governanca.Api.Controllers.ProcessamentosController",
+    "Method": "UploadProxy",
+    "RelativePath": "api/processamentos/upload",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "ContentType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ContentDisposition",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Headers",
+        "Type": "Microsoft.AspNetCore.Http.IHeaderDictionary",
+        "IsRequired": false
+      },
+      {
+        "Name": "Length",
+        "Type": "System.Int64",
+        "IsRequired": false
+      },
+      {
+        "Name": "Name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "FileName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "reuniaoId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "pautaId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "participantesJson",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "assinaturasJson",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "tarefasMarcadasJson",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Governanca.Api.Controllers.ProcessamentosController",
+    "Method": "GerarUrlUpload",
+    "RelativePath": "api/processamentos/upload-url",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nomeArquivo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "contentType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

@@ -7,6 +7,8 @@ namespace Governanca.Api.Controllers;
 [Route("api/dashboard")]
 public class DashboardController(IDashboardRepository repository) : ControllerBase
 {
+  // Responde tanto em GET /api/dashboard quanto em GET /api/dashboard/resumo
+  [HttpGet]
   [HttpGet("resumo")]
   public async Task<IActionResult> ObterResumo()
   {

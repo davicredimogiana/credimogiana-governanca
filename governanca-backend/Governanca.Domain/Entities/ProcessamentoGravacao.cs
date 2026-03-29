@@ -6,6 +6,8 @@ public class ProcessamentoGravacao
   public Guid? ReuniaoId { get; set; }
   public Guid? PautaId { get; set; }
   public string NomeArquivo { get; set; } = string.Empty;
+  /// <summary>Chave do objeto no MinIO (ex: gravacoes/uuid.m4a)</summary>
+  public string? ObjectKey { get; set; }
   public string Status { get; set; } = "enviando";
   public string? EtapaAtual { get; set; }
   public int Progresso { get; set; }

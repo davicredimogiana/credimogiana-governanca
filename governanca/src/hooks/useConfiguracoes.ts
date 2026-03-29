@@ -34,6 +34,7 @@ export function useConfiguracoes() {
   };
 
   const isEnvioAutomaticoAtivo = (tipo: "atas" | "pautas"): boolean => {
+    if (!configuracoes) return false;
     return tipo === "atas" ? configuracoes.enviarEmailAutomatico : configuracoes.enviarEmailAutomaticoPautas;
   };
 

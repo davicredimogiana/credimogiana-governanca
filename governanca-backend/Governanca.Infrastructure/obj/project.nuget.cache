@@ -1,9 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "HcPWt3htHJ0=",
+  "dgSpecHash": "Lfqc7/Ofnw4=",
   "success": true,
-  "projectFilePath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
+  "projectFilePath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\davi.hilario\\.nuget\\packages\\awssdk.core\\4.0.3.19\\awssdk.core.4.0.3.19.nupkg.sha512",
+    "C:\\Users\\davi.hilario\\.nuget\\packages\\awssdk.s3\\4.0.19.1\\awssdk.s3.4.0.19.1.nupkg.sha512",
     "C:\\Users\\davi.hilario\\.nuget\\packages\\dapper\\2.1.72\\dapper.2.1.72.nupkg.sha512",
     "C:\\Users\\davi.hilario\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.5\\microsoft.extensions.configuration.10.0.5.nupkg.sha512",
     "C:\\Users\\davi.hilario\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.5\\microsoft.extensions.configuration.abstractions.10.0.5.nupkg.sha512",

@@ -156,6 +156,18 @@
         }
       }
     },
+    "/api/dashboard": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/destinatarios": {
       "get": {
         "tags": [
@@ -1431,17 +1443,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessamentoGravacao"
+                "$ref": "#/components/schemas/CriarProcessamentoRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessamentoGravacao"
+                "$ref": "#/components/schemas/CriarProcessamentoRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ProcessamentoGravacao"
+                "$ref": "#/components/schemas/CriarProcessamentoRequest"
               }
             }
           }
@@ -1516,6 +1528,57 @@
         }
       },
       "delete": {
+        "tags": [
+          "Processamentos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/processamentos/upload-url": {
+      "get": {
+        "tags": [
+          "Processamentos"
+        ],
+        "parameters": [
+          {
+            "name": "nomeArquivo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "contentType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/processamentos/{id}/download-url": {
+      "get": {
         "tags": [
           "Processamentos"
         ],
@@ -1920,6 +1983,52 @@
           },
           "enviarEmailAutomaticoPautas": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CriarProcessamentoRequest": {
+        "type": "object",
+        "properties": {
+          "reuniaoId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "pautaId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "nomeArquivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "objectKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "participantes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "assinaturas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssinaturaProcessamento"
+            },
+            "nullable": true
+          },
+          "tarefasMarcadas": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2479,6 +2588,10 @@
             "nullable": true
           },
           "nomeArquivo": {
+            "type": "string",
+            "nullable": true
+          },
+          "objectKey": {
             "type": "string",
             "nullable": true
           },

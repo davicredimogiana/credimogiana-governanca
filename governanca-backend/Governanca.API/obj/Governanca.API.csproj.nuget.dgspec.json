@@ -1,25 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj": {}
+    "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj": {}
   },
   "projects": {
-    "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj": {
+    "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
+        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
         "projectName": "Governanca.API",
-        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
+        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
         "packagesPath": "C:\\Users\\davi.hilario\\.nuget\\packages\\",
-        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\obj\\",
+        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\davi.hilario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -28,19 +26,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.devexpress.com/lF79K3xktjgjZWAnLdFEWr6GFtF2Rkt4PItsSrHOk6i1A9kpXK/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
-                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
+              "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
+                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
               },
-              "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
-                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj"
+              "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
+                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj"
               }
             }
           }
@@ -61,6 +57,14 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "AWSSDK.Extensions.NETCore.Setup": {
+              "target": "Package",
+              "version": "[4.0.3.26, )"
+            },
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[4.0.19.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[10.1.5, )"
@@ -503,22 +507,20 @@
         }
       }
     },
-    "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
+    "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj",
+        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj",
         "projectName": "Governanca.Application",
-        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj",
+        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj",
         "packagesPath": "C:\\Users\\davi.hilario\\.nuget\\packages\\",
-        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\obj\\",
+        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\davi.hilario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -527,16 +529,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.devexpress.com/lF79K3xktjgjZWAnLdFEWr6GFtF2Rkt4PItsSrHOk6i1A9kpXK/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
-                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj"
+              "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
+                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj"
               }
             }
           }
@@ -850,22 +850,20 @@
         }
       }
     },
-    "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
+    "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj",
+        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj",
         "projectName": "Governanca.Domain",
-        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj",
+        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj",
         "packagesPath": "C:\\Users\\davi.hilario\\.nuget\\packages\\",
-        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\obj\\",
+        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\davi.hilario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -874,9 +872,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.devexpress.com/lF79K3xktjgjZWAnLdFEWr6GFtF2Rkt4PItsSrHOk6i1A9kpXK/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
@@ -1193,22 +1189,20 @@
         }
       }
     },
-    "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
+    "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
+        "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
         "projectName": "Governanca.Infrastructure",
-        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
+        "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\davi.hilario\\.nuget\\packages\\",
-        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\obj\\",
+        "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\davi.hilario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1217,19 +1211,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.devexpress.com/lF79K3xktjgjZWAnLdFEWr6GFtF2Rkt4PItsSrHOk6i1A9kpXK/api/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
-                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
+              "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
+                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
               },
-              "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
-                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj"
+              "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj": {
+                "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Domain\\Governanca.Domain.csproj"
               }
             }
           }
@@ -1250,6 +1242,10 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[4.0.19.1, )"
+            },
             "Dapper": {
               "target": "Package",
               "version": "[2.1.72, )"

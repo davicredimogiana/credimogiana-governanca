@@ -1,14 +1,13 @@
-using System.Text.Json;
 using Dapper;
 using Governanca.Application.Interfaces;
 using Governanca.Domain.Entities;
-using Governanca.Infrastructure.Data;
+using System.Text.Json;
 
 namespace Governanca.Infrastructure.Repositories;
 
 public class ProcessamentoRepository(IDbConnectionFactory connectionFactory) : IProcessamentoRepository
 {
-  public async Task<IEnumerable<ProcessamentoGravacao>> ListarAsync(Guid? reuniaoId = null)
+  public async Task<IEnumerable<ProcessamentoGravacao>> ListarAsync(Guid? reuniaoId)
   {
     var sql = @"
 select
@@ -16,6 +15,7 @@ select
     reuniao_id as ReuniaoId,
     pauta_id as PautaId,
     nome_arquivo as NomeArquivo,
+    object_key as ObjectKey,
     status as Status,
     etapa_atual as EtapaAtual,
     progresso as Progresso,
@@ -28,11 +28,10 @@ select
     created_at as CreatedAt,
     updated_at as UpdatedAt
 from public.processamentos_gravacao
-" + (reuniaoId.HasValue ? "where reuniao_id = @ReuniaoId " : "") + @"
-order by created_at desc;
-";
+" + (reuniaoId.HasValue ? "where reuniao_id = @ReuniaoId " : "") + "order by created_at desc;";
+
     using var connection = await connectionFactory.CreateConnectionAsync();
-    var rows = await connection.QueryAsync<ProcessamentoRow>(sql, new { ReuniaoId = reuniaoId });
+    var rows = await connection.QueryAsync<ProcessamentoRow>(sql, reuniaoId.HasValue ? new { ReuniaoId = reuniaoId } : null);
     return rows.Select(Mapear);
   }
 
@@ -44,6 +43,7 @@ select
     reuniao_id as ReuniaoId,
     pauta_id as PautaId,
     nome_arquivo as NomeArquivo,
+    object_key as ObjectKey,
     status as Status,
     etapa_atual as EtapaAtual,
     progresso as Progresso,
@@ -67,9 +67,11 @@ where id = @Id;
   {
     const string sql = @"
 insert into public.processamentos_gravacao
-    (id, reuniao_id, pauta_id, nome_arquivo, status, etapa_atual, progresso, link_drive, link_arquivo_processado, erro_mensagem, participantes, tarefas_marcadas, assinaturas, created_at, updated_at)
+    (id, reuniao_id, pauta_id, nome_arquivo, object_key, status, etapa_atual, progresso,
+     link_drive, link_arquivo_processado, erro_mensagem, participantes, tarefas_marcadas, assinaturas, created_at, updated_at)
 values
-    (gen_random_uuid(), @ReuniaoId, @PautaId, @NomeArquivo, @Status, @EtapaAtual, @Progresso, @LinkDrive, @LinkArquivoProcessado, @ErroMensagem, @Participantes, @TarefasMarcadas, cast(@AssinaturasJson as jsonb), now(), now())
+    (gen_random_uuid(), @ReuniaoId, @PautaId, @NomeArquivo, @ObjectKey, @Status, @EtapaAtual, @Progresso,
+     @LinkDrive, @LinkArquivoProcessado, @ErroMensagem, @Participantes, @TarefasMarcadas, cast(@AssinaturasJson as jsonb), now(), now())
 returning id;
 ";
     using var connection = await connectionFactory.CreateConnectionAsync();
@@ -78,6 +80,7 @@ returning id;
       processamento.ReuniaoId,
       processamento.PautaId,
       processamento.NomeArquivo,
+      processamento.ObjectKey,
       processamento.Status,
       processamento.EtapaAtual,
       processamento.Progresso,
@@ -98,6 +101,7 @@ update public.processamentos_gravacao
 set status = @Status,
     etapa_atual = @EtapaAtual,
     progresso = @Progresso,
+    object_key = @ObjectKey,
     link_drive = @LinkDrive,
     link_arquivo_processado = @LinkArquivoProcessado,
     erro_mensagem = @ErroMensagem,
@@ -114,6 +118,7 @@ where id = @Id;
       processamento.Status,
       processamento.EtapaAtual,
       processamento.Progresso,
+      processamento.ObjectKey,
       processamento.LinkDrive,
       processamento.LinkArquivoProcessado,
       processamento.ErroMensagem,
@@ -127,7 +132,8 @@ where id = @Id;
   public async Task<bool> ExcluirAsync(Guid id)
   {
     using var connection = await connectionFactory.CreateConnectionAsync();
-    var affected = await connection.ExecuteAsync("delete from public.processamentos_gravacao where id = @Id", new { Id = id });
+    var affected = await connection.ExecuteAsync(
+      "delete from public.processamentos_gravacao where id = @Id", new { Id = id });
     return affected > 0;
   }
 
@@ -143,13 +149,13 @@ where id = @Id;
       }
       catch { /* ignora erros de desserialização */ }
     }
-
     return new ProcessamentoGravacao
     {
       Id = row.Id,
       ReuniaoId = row.ReuniaoId,
       PautaId = row.PautaId,
       NomeArquivo = row.NomeArquivo,
+      ObjectKey = row.ObjectKey,
       Status = row.Status,
       EtapaAtual = row.EtapaAtual,
       Progresso = row.Progresso,
@@ -170,6 +176,7 @@ where id = @Id;
     public Guid? ReuniaoId { get; set; }
     public Guid? PautaId { get; set; }
     public string NomeArquivo { get; set; } = string.Empty;
+    public string? ObjectKey { get; set; }
     public string Status { get; set; } = string.Empty;
     public string? EtapaAtual { get; set; }
     public int Progresso { get; set; }

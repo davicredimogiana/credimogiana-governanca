@@ -2,6 +2,54 @@
   "version": 3,
   "targets": {
     "net10.0": {
+      "AWSSDK.Core/4.0.3.19": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "AWSSDK.Extensions.NETCore.Setup/4.0.3.26": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "4.0.3.19"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/AWSSDK.Extensions.NETCore.Setup.targets": {}
+        }
+      },
+      "AWSSDK.S3/4.0.19.1": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.3.19, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Dapper/2.1.72": {
         "type": "package",
         "compile": {
@@ -145,6 +193,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "AWSSDK.S3": "4.0.19.1",
           "Dapper": "2.1.72",
           "Governanca.Application": "1.0.0",
           "Governanca.Domain": "1.0.0",
@@ -160,6 +209,75 @@
     }
   },
   "libraries": {
+    "AWSSDK.Core/4.0.3.19": {
+      "sha512": "8zIzN59+J6arYSyFuhnSxPepr8ff4p6li+MxKUUnqCgwZqQ+icEGJK/23c1USIEALqZZ5gdiITuH2sOZWQom+Q==",
+      "type": "package",
+      "path": "awssdk.core/4.0.3.19",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.4.0.3.19.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.Core.dll",
+        "lib/net472/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.Extensions.NETCore.Setup/4.0.3.26": {
+      "sha512": "AkS58bk3ksCUreIrOWdP+eSKnSNtZnZ9Ahx2PX7xxkYTTk9yuYfRaIeZz31bQoaeRZzobrojKqCQVZ3NiiYnkw==",
+      "type": "package",
+      "path": "awssdk.extensions.netcore.setup/4.0.3.26",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "ConfigurationSchema.json",
+        "awssdk.extensions.netcore.setup.4.0.3.26.nupkg.sha512",
+        "awssdk.extensions.netcore.setup.nuspec",
+        "buildTransitive/net8.0/AWSSDK.Extensions.NETCore.Setup.targets",
+        "buildTransitive/netcoreapp3.1/AWSSDK.Extensions.NETCore.Setup.targets",
+        "buildTransitive/netstandard2.0/AWSSDK.Extensions.NETCore.Setup.targets",
+        "images/AWSLogo.png",
+        "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.dll",
+        "lib/net8.0/AWSSDK.Extensions.NETCore.Setup.xml",
+        "lib/netcoreapp3.1/AWSSDK.Extensions.NETCore.Setup.dll",
+        "lib/netcoreapp3.1/AWSSDK.Extensions.NETCore.Setup.xml",
+        "lib/netstandard2.0/AWSSDK.Extensions.NETCore.Setup.dll",
+        "lib/netstandard2.0/AWSSDK.Extensions.NETCore.Setup.xml"
+      ]
+    },
+    "AWSSDK.S3/4.0.19.1": {
+      "sha512": "DCTFohRB53/g2kaz7cUX3ZTyFTbRErj5JvT4HrquKTvXvUpY/vUyUMGEVWoC0UXmxalYaPAR8tO7WgEJRJjM9w==",
+      "type": "package",
+      "path": "awssdk.s3/4.0.19.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.s3.4.0.19.1.nupkg.sha512",
+        "awssdk.s3.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.S3.dll",
+        "lib/net472/AWSSDK.S3.xml",
+        "lib/net8.0/AWSSDK.S3.dll",
+        "lib/net8.0/AWSSDK.S3.xml",
+        "lib/netcoreapp3.1/AWSSDK.S3.dll",
+        "lib/netcoreapp3.1/AWSSDK.S3.xml",
+        "lib/netstandard2.0/AWSSDK.S3.dll",
+        "lib/netstandard2.0/AWSSDK.S3.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "Dapper/2.1.72": {
       "sha512": "ns4mGqQd9a/MhP8m6w556vVlZIa0/MfUu03zrxjZC/jlr1uVCsUac8bkdB+Fs98Llbd56rRSo1eZH5VVmeGZyw==",
       "type": "package",
@@ -573,6 +691,8 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "AWSSDK.Extensions.NETCore.Setup >= 4.0.3.26",
+      "AWSSDK.S3 >= 4.0.19.1",
       "Governanca.Application >= 1.0.0",
       "Governanca.Infrastructure >= 1.0.0",
       "Swashbuckle.AspNetCore >= 10.1.5"
@@ -580,25 +700,22 @@
   },
   "packageFolders": {
     "C:\\Users\\davi.hilario\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
+      "projectUniqueName": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
       "projectName": "Governanca.API",
-      "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
+      "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\Governanca.API.csproj",
       "packagesPath": "C:\\Users\\davi.hilario\\.nuget\\packages\\",
-      "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.API\\obj\\",
+      "outputPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 23.2\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\davi.hilario\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.2.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -607,19 +724,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\DevExpress 23.2\\Components\\System\\Components\\Packages": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://nuget.devexpress.com/lF79K3xktjgjZWAnLdFEWr6GFtF2Rkt4PItsSrHOk6i1A9kpXK/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
-              "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
+            "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj": {
+              "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Application\\Governanca.Application.csproj"
             },
-            "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
-              "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca2\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj"
+            "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj": {
+              "projectPath": "C:\\CrediMogianaDevelopements\\credimogiana-governanca\\governanca-backend\\Governanca.Infrastructure\\Governanca.Infrastructure.csproj"
             }
           }
         }
@@ -640,6 +755,14 @@
       "net10.0": {
         "targetAlias": "net10.0",
         "dependencies": {
+          "AWSSDK.Extensions.NETCore.Setup": {
+            "target": "Package",
+            "version": "[4.0.3.26, )"
+          },
+          "AWSSDK.S3": {
+            "target": "Package",
+            "version": "[4.0.19.1, )"
+          },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[10.1.5, )"

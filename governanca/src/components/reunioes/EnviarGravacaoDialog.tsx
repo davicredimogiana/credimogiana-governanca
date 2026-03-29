@@ -165,42 +165,69 @@ export function EnviarGravacaoDialog() {
       });
       return;
     }
-
     try {
       setEnviando(true);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+      // ── Etapa 1: Solicitar Presigned URL ao backend ──────────────────────────
       setUploadProgress(10);
       setUploadEtapa('Preparando envio...');
+      const contentType = file.type || 'application/octet-stream';
+      const urlRes = await fetch(
+        `${apiUrl}/api/processamentos/upload-url?nomeArquivo=${encodeURIComponent(file.name)}&contentType=${encodeURIComponent(contentType)}`
+      );
+      if (!urlRes.ok) {
+        const body = await urlRes.json().catch(() => ({}));
+        throw new Error(body.message || `Erro ao obter URL de upload: ${urlRes.status}`);
+      }
+      const { uploadUrl, objectKey } = await urlRes.json() as { uploadUrl: string; objectKey: string };
 
-      const formData = new FormData();
-      formData.append('arquivo', file);
-      formData.append('reuniaoId', reuniaoId || '');
-      formData.append('nomeReuniao', reuniaoSelecionada?.titulo || 'Reunião sem título');
-      formData.append('dataReuniao', reuniaoSelecionada?.data || new Date().toISOString().split('T')[0]);
-      formData.append('tipoReuniao', reuniaoSelecionada?.tipo || 'geral');
-      formData.append('participantes', JSON.stringify(participantes));
-      formData.append('assinaturas', JSON.stringify(assinaturasCompletas));
-      formData.append('pautaId', pauta?.id || '');
-      formData.append('tarefasMarcadas', JSON.stringify(tarefasMarcadas));
+      // ── Etapa 2: Upload direto para o MinIO via PUT ──────────────────────────
+      setUploadProgress(20);
+      setUploadEtapa('Enviando arquivo para o storage...');
 
-      setUploadProgress(30);
-      setUploadEtapa('Enviando arquivo...');
-
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const response = await fetch(`${apiUrl}/api/processamentos/upload`, {
-        method: 'POST',
-        body: formData,
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            const pct = Math.round((e.loaded / e.total) * 60); // 20% → 80%
+            setUploadProgress(20 + pct);
+          }
+        });
+        xhr.addEventListener('load', () => {
+          if (xhr.status >= 200 && xhr.status < 300) resolve();
+          else reject(new Error(`Erro no upload para o storage: ${xhr.status} ${xhr.statusText}`));
+        });
+        xhr.addEventListener('error', () => reject(new Error('Falha de rede ao enviar para o storage.')));
+        xhr.open('PUT', uploadUrl);
+        xhr.setRequestHeader('Content-Type', contentType);
+        xhr.send(file);
       });
 
-      setUploadProgress(80);
-      setUploadEtapa('Finalizando...');
-
-      if (!response.ok) {
-        const body = await response.json().catch(() => ({}));
-        throw new Error(body.message || `Erro ${response.status}`);
+      // ── Etapa 3: Registrar processamento no backend ──────────────────────────
+      setUploadProgress(85);
+      setUploadEtapa('Registrando processamento...');
+      const regRes = await fetch(`${apiUrl}/api/processamentos`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reuniaoId: reuniaoId || null,
+          pautaId: pauta?.id || null,
+          nomeArquivo: file.name,
+          objectKey,
+          participantes,
+          assinaturas: assinaturasCompletas,
+          tarefasMarcadas,
+        }),
+      });
+      if (!regRes.ok) {
+        const body = await regRes.json().catch(() => ({}));
+        throw new Error(body.message || `Erro ao registrar processamento: ${regRes.status}`);
       }
 
       setUploadProgress(100);
-      toast({ title: 'Gravação enviada!', description: 'O processamento foi iniciado. Acompanhe o status na página de reuniões.' });
+      setUploadEtapa('Concluído!');
+      toast({ title: 'Gravação enviada!', description: 'O arquivo foi salvo no storage e o processamento foi registrado.' });
       resetForm();
       setOpen(false);
     } catch (error: unknown) {
