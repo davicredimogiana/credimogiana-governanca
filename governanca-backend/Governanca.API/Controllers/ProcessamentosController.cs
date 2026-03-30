@@ -10,7 +10,12 @@ namespace Governanca.Api.Controllers;
 
 [ApiController]
 [Route("api/processamentos")]
-public class ProcessamentosController(IProcessamentoRepository repository, IConfiguracaoRepository configuracaoRepository, IStorageService storage, IAmazonS3 s3Client, IConfiguration configuration, IHttpClientFactory httpClientFactory) : ControllerBase
+public class ProcessamentosController(
+    IProcessamentoRepository repository,
+    IWebhookOutboxRepository outboxRepository,
+    IStorageService storage,
+    IAmazonS3 s3Client,
+    IConfiguration configuration) : ControllerBase
 {
     private readonly string _bucket = configuration["Minio:Bucket"] ?? "governanca-upload";
 
@@ -31,7 +36,7 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
 
     /// <summary>
     /// Proxy de upload: recebe o arquivo via multipart/form-data e envia diretamente ao MinIO.
-    /// Após salvar, dispara o webhook N8N configurado para iniciar o processamento de transcrição.
+    /// Após salvar, enfileira o despacho ao N8N via Outbox (processado pelo N8nDispatcherWorker).
     /// </summary>
     [HttpPost("upload")]
     [RequestSizeLimit(500 * 1024 * 1024)] // 500 MB
@@ -67,32 +72,34 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
         await s3Client.PutObjectAsync(putRequest);
 
         // ── Deserializar metadados ────────────────────────────────────────────────
-        var participantes = DeserializarLista<string>(participantesJson) ?? [];
-        var assinaturas = DeserializarLista<AssinaturaProcessamento>(assinaturasJson) ?? [];
-        var tarefasMarcadas = DeserializarLista<Guid>(tarefasMarcadasJson) ?? [];
+        var participantes    = DeserializarLista<string>(participantesJson) ?? [];
+        var assinaturas      = DeserializarLista<AssinaturaProcessamento>(assinaturasJson) ?? [];
+        var tarefasMarcadas  = DeserializarLista<Guid>(tarefasMarcadasJson) ?? [];
 
         Guid? reuniaoGuid = Guid.TryParse(reuniaoId, out var rg) ? rg : null;
-        Guid? pautaGuid = Guid.TryParse(pautaId, out var pg) ? pg : null;
+        Guid? pautaGuid   = Guid.TryParse(pautaId,   out var pg) ? pg : null;
 
         // ── Registrar processamento no banco ──────────────────────────────────────
         var processamento = new ProcessamentoGravacao
         {
-            ReuniaoId = reuniaoGuid,
-            PautaId = pautaGuid,
-            NomeArquivo = arquivo.FileName,
-            ObjectKey = objectKey,
-            Status = "aguardando",
-            EtapaAtual = "Arquivo recebido. Aguardando processamento.",
-            Progresso = 0,
-            Participantes = participantes,
-            Assinaturas = assinaturas,
+            ReuniaoId       = reuniaoGuid,
+            PautaId         = pautaGuid,
+            NomeArquivo     = arquivo.FileName,
+            ObjectKey       = objectKey,
+            Status          = "aguardando",
+            EtapaAtual      = "Arquivo recebido. Aguardando processamento.",
+            Progresso       = 0,
+            Participantes   = participantes,
+            Assinaturas     = assinaturas,
             TarefasMarcadas = tarefasMarcadas,
         };
 
         var criado = await repository.CriarAsync(processamento);
 
-        // ── Disparar webhook N8N (fire-and-forget, não bloqueia a resposta) ───────
-        _ = DispararWebhookN8nAsync(criado, objectKey);
+        // ── Enfileirar despacho ao N8N (Outbox Pattern) ───────────────────────────
+        // O N8nDispatcherWorker irá ler esta fila e garantir a entrega com retry.
+        var payload = MontarPayload(criado, objectKey);
+        await outboxRepository.EnfileirarAsync(criado.Id, payload);
 
         return CreatedAtAction(nameof(GetById), new { id = criado.Id }, criado);
     }
@@ -109,9 +116,9 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
         if (string.IsNullOrWhiteSpace(nomeArquivo))
             return BadRequest(new { message = "nomeArquivo é obrigatório." });
 
-        var ext = Path.GetExtension(nomeArquivo);
+        var ext       = Path.GetExtension(nomeArquivo);
         var objectKey = $"gravacoes/{Guid.NewGuid()}{ext}";
-        var mime = contentType ?? InferirContentType(ext);
+        var mime      = contentType ?? InferirContentType(ext);
 
         var uploadUrl = await storage.GerarUrlUploadAsync(objectKey, mime, expiresInMinutes: 30);
 
@@ -141,29 +148,30 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
 
     /// <summary>
     /// Registra o processamento após o frontend ter feito o upload direto ao MinIO via Presigned URL.
-    /// Também dispara o webhook N8N configurado.
+    /// Enfileira o despacho ao N8N via Outbox.
     /// </summary>
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CriarProcessamentoRequest input)
     {
         var processamento = new ProcessamentoGravacao
         {
-            ReuniaoId = input.ReuniaoId,
-            PautaId = input.PautaId,
-            NomeArquivo = input.NomeArquivo ?? "gravacao",
-            ObjectKey = input.ObjectKey,
-            Status = "aguardando",
-            EtapaAtual = "Arquivo recebido no storage. Aguardando processamento.",
-            Progresso = 0,
-            Participantes = input.Participantes ?? [],
-            Assinaturas = input.Assinaturas ?? [],
+            ReuniaoId       = input.ReuniaoId,
+            PautaId         = input.PautaId,
+            NomeArquivo     = input.NomeArquivo ?? "gravacao",
+            ObjectKey       = input.ObjectKey,
+            Status          = "aguardando",
+            EtapaAtual      = "Arquivo recebido no storage. Aguardando processamento.",
+            Progresso       = 0,
+            Participantes   = input.Participantes ?? [],
+            Assinaturas     = input.Assinaturas ?? [],
             TarefasMarcadas = input.TarefasMarcadas ?? [],
         };
 
         var criado = await repository.CriarAsync(processamento);
 
-        // ── Disparar webhook N8N (fire-and-forget) ────────────────────────────────
-        _ = DispararWebhookN8nAsync(criado, input.ObjectKey);
+        // ── Enfileirar despacho ao N8N (Outbox Pattern) ───────────────────────────
+        var payload = MontarPayload(criado, input.ObjectKey);
+        await outboxRepository.EnfileirarAsync(criado.Id, payload);
 
         return CreatedAtAction(nameof(GetById), new { id = criado.Id }, criado);
     }
@@ -193,64 +201,37 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
         return NoContent();
     }
 
-    // ─── Webhook N8N ─────────────────────────────────────────────────────────────
+    // ─── Helpers ─────────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Dispara o webhook N8N de forma assíncrona (fire-and-forget).
-    /// Erros são apenas logados e não afetam a resposta ao cliente.
+    /// Monta o payload JSON que será enviado ao webhook do N8N.
+    /// A URL de callback usa o host configurado em Minio:CallbackBaseUrl para
+    /// funcionar corretamente dentro do Docker (onde Request.Host não é acessível).
     /// </summary>
-    private async Task DispararWebhookN8nAsync(ProcessamentoGravacao processamento, string? objectKey)
+    private string MontarPayload(ProcessamentoGravacao processamento, string? objectKey)
     {
-        try
+        var minioEndpoint  = configuration["Minio:Endpoint"] ?? "http://localhost:8000";
+        var callbackBase   = configuration["Api:CallbackBaseUrl"] ?? $"http://localhost:5000";
+
+        var payload = new
         {
-            var cfg = await configuracaoRepository.ObterAsync();
-            var webhookUrl = cfg.WebhookN8nReceberAtas;
+            processamentoId = processamento.Id,
+            reuniaoId       = processamento.ReuniaoId,
+            pautaId         = processamento.PautaId,
+            nomeArquivo     = processamento.NomeArquivo,
+            objectKey       = objectKey,
+            bucket          = _bucket,
+            minioEndpoint   = minioEndpoint,
+            participantes   = processamento.Participantes,
+            criadoEm        = processamento.CreatedAt,
+            callbackUrl     = $"{callbackBase}/api/processamentos/{processamento.Id}",
+        };
 
-            if (string.IsNullOrWhiteSpace(webhookUrl))
-            {
-                Console.WriteLine("[N8N] Webhook não configurado. Pulando disparo.");
-                return;
-            }
-
-            var minioEndpoint = configuration["Minio:Endpoint"] ?? "http://localhost:8000";
-            var bucket = _bucket;
-
-            var payload = new
-            {
-                processamentoId = processamento.Id,
-                reuniaoId = processamento.ReuniaoId,
-                pautaId = processamento.PautaId,
-                nomeArquivo = processamento.NomeArquivo,
-                objectKey = objectKey,
-                bucket = bucket,
-                minioEndpoint = minioEndpoint,
-                participantes = processamento.Participantes,
-                criadoEm = processamento.CreatedAt,
-                callbackUrl = $"{Request.Scheme}://{Request.Host}/api/processamentos/{processamento.Id}",
-            };
-
-            var json = JsonSerializer.Serialize(payload, new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
-
-            var httpClient = httpClientFactory.CreateClient("N8N");
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync(webhookUrl, content);
-
-            if (response.IsSuccessStatusCode)
-                Console.WriteLine($"[N8N] Webhook disparado com sucesso para processamento {processamento.Id}");
-            else
-                Console.WriteLine($"[N8N] Webhook retornou status {(int)response.StatusCode} para processamento {processamento.Id}");
-        }
-        catch (Exception ex)
+        return JsonSerializer.Serialize(payload, new JsonSerializerOptions
         {
-            Console.WriteLine($"[N8N] Erro ao disparar webhook: {ex.Message}");
-        }
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        });
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────────────────────
 
     private static List<T>? DeserializarLista<T>(string? json)
     {
@@ -261,14 +242,14 @@ public class ProcessamentosController(IProcessamentoRepository repository, IConf
 
     private static string InferirContentType(string ext) => ext.ToLowerInvariant() switch
     {
-        ".mp3" => "audio/mpeg",
-        ".mp4" => "audio/mp4",
-        ".m4a" => "audio/mp4",
-        ".wav" => "audio/wav",
-        ".ogg" => "audio/ogg",
+        ".mp3"  => "audio/mpeg",
+        ".mp4"  => "audio/mp4",
+        ".m4a"  => "audio/mp4",
+        ".wav"  => "audio/wav",
+        ".ogg"  => "audio/ogg",
         ".webm" => "audio/webm",
-        ".aac" => "audio/aac",
-        _ => "application/octet-stream"
+        ".aac"  => "audio/aac",
+        _       => "application/octet-stream"
     };
 }
 

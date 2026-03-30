@@ -1,5 +1,6 @@
 using Amazon.Runtime;
 using Amazon.S3;
+using Governanca.API.Workers;
 using Governanca.Application.Interfaces;
 using Governanca.Application.Services;
 using Governanca.Infrastructure.Data;
@@ -42,6 +43,7 @@ builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
 builder.Services.AddScoped<IPautaRepository, PautaRepository>();
 builder.Services.AddScoped<IProcessamentoRepository, ProcessamentoRepository>();
 builder.Services.AddScoped<IEnvioEmailRepository, EnvioEmailRepository>();
+builder.Services.AddScoped<IWebhookOutboxRepository, WebhookOutboxRepository>();
 
 // ─── MinIO (S3-compatible) ────────────────────────────────────────────────────
 var minioInternalEndpoint = builder.Configuration["Minio:Endpoint"] ?? "http://minio:9000";
@@ -92,6 +94,9 @@ builder.Services.AddHttpClient("N8N", client =>
 {
   client.Timeout = TimeSpan.FromSeconds(30);
 });
+
+// ─── Worker: despacho confiável para o N8N (Outbox Pattern) ──────────────────
+builder.Services.AddHostedService<N8nDispatcherWorker>();
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>

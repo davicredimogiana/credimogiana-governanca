@@ -32,6 +32,8 @@ services:
     environment:
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=governanca;Username=postgres;Password=${POSTGRES_PASSWORD:-postgres}"
       ASPNETCORE_ENVIRONMENT: Production
+      # URL base do próprio backend, usada pelo Worker para montar o callbackUrl enviado ao N8N
+      Api__CallbackBaseUrl: ${API_CALLBACK_BASE_URL:-http://backend:5000}
     ports:
       - "5000:5000"
     depends_on:
