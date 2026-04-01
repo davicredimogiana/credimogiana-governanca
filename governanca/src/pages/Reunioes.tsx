@@ -28,7 +28,7 @@ import { CardReuniaoExecutivo } from "@/components/reunioes/CardReuniaoExecutivo
 import { EnviarGravacaoDialog } from "@/components/reunioes/EnviarGravacaoDialog";
 
 const Reunioes = () => {
-  const { reunioes, loading, stats, excluirReuniao, refetch } = useReunioesHistorico();
+  const { reunioes, loading, isFetching, stats, excluirReuniao, refetch } = useReunioesHistorico();
   const [filtroStatus, setFiltroStatus] = useState<string>("todas");
   const [busca, setBusca] = useState("");
 
@@ -46,7 +46,9 @@ const Reunioes = () => {
     return matchBusca && matchStatus;
   });
 
-  if (loading) {
+  // Exibe spinner apenas no carregamento inicial (sem dados ainda)
+  // Durante refetches (isFetching), mantém a lista visível
+  if (loading && reunioes.length === 0) {
     return (
       <MainLayout titulo="Reuniões Registradas" subtitulo="Acompanhe as reuniões realizadas e suas atas">
         <div className="flex items-center justify-center h-64">
@@ -121,8 +123,8 @@ const Reunioes = () => {
                 </SelectContent>
               </Select>
               <div className="flex gap-2 flex-wrap items-center">
-                <Button variant="outline" size="icon" onClick={refetch} title="Atualizar">
-                  <RefreshCw className="w-4 h-4" />
+                <Button variant="outline" size="icon" onClick={refetch} title="Atualizar" disabled={isFetching}>
+                  <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
                 </Button>
                 <EnviarGravacaoDialog onSuccess={refetch} />
               </div>

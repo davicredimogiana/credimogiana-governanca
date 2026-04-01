@@ -85,7 +85,7 @@ export function useReunioesHistorico() {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: reunioes = [], isLoading: loading } = useQuery({
+  const { data: reunioes = [], isLoading: loading, isFetching } = useQuery({
     queryKey: REUNIOES_HISTORICO_KEY,
     queryFn: fetchHistoricoFn,
     staleTime: 0,
@@ -119,5 +119,5 @@ export function useReunioesHistorico() {
     aguardandoAta: reunioes.filter(r => r.status === 'processando').length,
   };
 
-  return { reunioes, loading, stats, excluirReuniao, refetch: invalidateAndRefetch };
+  return { reunioes, loading, isFetching, stats, excluirReuniao, refetch: invalidateAndRefetch };
 }
