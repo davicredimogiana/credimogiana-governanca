@@ -35,6 +35,17 @@ export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps = 
 
   const [open, setOpen] = useState(false);
   const [enviando, setEnviando] = useState(false);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
+
+  // Dispara o invalidateQueries APÓS o modal fechar completamente
+  useEffect(() => {
+    if (!open && shouldRefetch) {
+      setShouldRefetch(false);
+      queryClient.invalidateQueries({ queryKey: REUNIOES_HISTORICO_KEY });
+      onSuccess?.();
+    }
+  }, [open, shouldRefetch]);
+
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadEtapa, setUploadEtapa] = useState<string>('');
 
@@ -198,10 +209,8 @@ export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps = 
       setUploadEtapa('Concluído!');
       toast({ title: 'Gravação enviada!', description: 'O arquivo foi salvo no storage e o processamento foi registrado.' });
       resetForm();
-      setOpen(false);
-      // Invalida o cache do React Query para forçar refresh imediato na tela de Reuniões
-      await queryClient.invalidateQueries({ queryKey: REUNIOES_HISTORICO_KEY });
-      onSuccess?.();
+      setShouldRefetch(true); // sinaliza que deve atualizar quando o modal fechar
+      setOpen(false);         // fecha o modal (o useEffect acima dispara o refetch)
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Erro ao enviar gravação';
       console.error('Erro ao enviar:', error);
