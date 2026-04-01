@@ -7,7 +7,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # ARG permite passar a URL da API em tempo de build
-ARG VITE_API_URL=http://localhost:5000
+ARG VITE_API_URL=https://api.governanca.mogiana.io
 ENV VITE_API_URL=$VITE_API_URL
 
 RUN npm run build
