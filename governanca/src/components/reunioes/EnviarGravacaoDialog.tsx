@@ -25,7 +25,7 @@ interface EnviarGravacaoDialogProps {
   onSuccess?: () => void | Promise<void>;
 }
 
-export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps) {
+export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps = {}) {
   const { reunioes, loading: loadingReunioes } = useReunioes();
   const { tarefas } = useTarefas();
   const { toast } = useToast();
@@ -193,12 +193,10 @@ export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps) {
 
       setUploadProgress(100);
       setUploadEtapa('Concluído!');
-      if (onSuccess) {
-        await onSuccess();
-      }
       toast({ title: 'Gravação enviada!', description: 'O arquivo foi salvo no storage e o processamento foi registrado.' });
       resetForm();
       setOpen(false);
+      onSuccess?.();
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Erro ao enviar gravação';
       console.error('Erro ao enviar:', error);

@@ -124,7 +124,6 @@ const Reunioes = () => {
                 <Button variant="outline" size="icon" onClick={refetch} title="Atualizar">
                   <RefreshCw className="w-4 h-4" />
                 </Button>
-
                 <EnviarGravacaoDialog onSuccess={refetch} />
               </div>
             </div>
@@ -147,7 +146,7 @@ const Reunioes = () => {
                   : "Clique em \"Enviar Gravação\" para enviar a gravação de uma reunião e gerar a ata automaticamente."}
               </p>
               {!busca && filtroStatus === "todas" && (
-                <EnviarGravacaoDialog />
+                <EnviarGravacaoDialog onSuccess={refetch} />
               )}
             </CardContent>
           </Card>
