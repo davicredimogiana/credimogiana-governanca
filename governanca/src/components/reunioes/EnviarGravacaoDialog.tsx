@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { REUNIOES_HISTORICO_KEY } from '@/hooks/useReunioesHistorico';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -26,6 +28,7 @@ interface EnviarGravacaoDialogProps {
 }
 
 export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps = {}) {
+  const queryClient = useQueryClient();
   const { reunioes, loading: loadingReunioes } = useReunioes();
   const { tarefas } = useTarefas();
   const { toast } = useToast();
@@ -196,6 +199,8 @@ export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps = 
       toast({ title: 'Gravação enviada!', description: 'O arquivo foi salvo no storage e o processamento foi registrado.' });
       resetForm();
       setOpen(false);
+      // Invalida o cache do React Query para forçar refresh imediato na tela de Reuniões
+      await queryClient.invalidateQueries({ queryKey: REUNIOES_HISTORICO_KEY });
       onSuccess?.();
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'Erro ao enviar gravação';
