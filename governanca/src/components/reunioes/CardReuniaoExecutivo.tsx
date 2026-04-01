@@ -25,10 +25,14 @@ import {
   AlertTriangle,
   Lightbulb,
   Trash2,
+  Loader2,
+  XCircle,
+  Mic,
+  Brain,
 } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import type { ReuniaoHistorico } from "@/hooks/useReunioesHistorico";
+import type { ReuniaoHistorico, StatusReuniao } from "@/hooks/useReunioesHistorico";
 import { ExcluirReuniaoDialog } from "./ExcluirReuniaoDialog";
 
 interface CardReuniaoExecutivoProps {
@@ -36,9 +40,66 @@ interface CardReuniaoExecutivoProps {
   onExcluir: (reuniao: ReuniaoHistorico) => Promise<void>;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Configuração visual de cada status
+// ─────────────────────────────────────────────────────────────────────────────
+const STATUS_CONFIG: Record<StatusReuniao, {
+  label: string;
+  className: string;
+  icon: React.ElementType;
+  spin?: boolean;
+  mensagem: string;
+}> = {
+  ata_disponivel: {
+    label: 'Ata Disponível',
+    className: 'bg-success/10 text-success border-success/30',
+    icon: CheckCircle2,
+    mensagem: '',
+  },
+  aguardando: {
+    label: 'Aguardando',
+    className: 'bg-muted/60 text-muted-foreground border-muted-foreground/20',
+    icon: Clock,
+    mensagem: '⏳ Na fila de processamento. A ata será gerada em breve...',
+  },
+  processando: {
+    label: 'Processando',
+    className: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+    icon: Loader2,
+    spin: true,
+    mensagem: '⚙️ Enviando gravação para processamento...',
+  },
+  transcrevendo: {
+    label: 'Transcrevendo',
+    className: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+    icon: Mic,
+    mensagem: '🎙️ Transcrevendo o áudio da reunião...',
+  },
+  analisando: {
+    label: 'Analisando',
+    className: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+    icon: Brain,
+    mensagem: '🧠 Analisando a transcrição com IA...',
+  },
+  concluido: {
+    label: 'Finalizado',
+    className: 'bg-blue-500/10 text-blue-600 border-blue-500/30',
+    icon: CheckCircle2,
+    mensagem: '✅ Processamento concluído. Aguardando geração da ata...',
+  },
+  erro: {
+    label: 'Erro',
+    className: 'bg-destructive/10 text-destructive border-destructive/30',
+    icon: XCircle,
+    mensagem: '❌ Ocorreu um erro durante o processamento. Tente enviar novamente.',
+  },
+};
+
 export function CardReuniaoExecutivo({ reuniao, onExcluir }: CardReuniaoExecutivoProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const isAtaDisponivel = reuniao.status === 'ata_disponivel';
+  const config = STATUS_CONFIG[reuniao.status] ?? STATUS_CONFIG['processando'];
+  const Icon = config.icon;
   const dataFormatada = format(
     new Date(reuniao.data),
     "dd 'de' MMMM 'de' yyyy",
@@ -62,24 +123,12 @@ export function CardReuniaoExecutivo({ reuniao, onExcluir }: CardReuniaoExecutiv
                 {dataFormatada}
               </CardDescription>
             </div>
-            <Badge 
-              className={
-                isAtaDisponivel 
-                  ? "bg-success/10 text-success border-success/30 shrink-0" 
-                  : "bg-warning/10 text-warning border-warning/30 shrink-0"
-              }
+            <Badge
+              variant="outline"
+              className={`${config.className} shrink-0 flex items-center gap-1`}
             >
-              {isAtaDisponivel ? (
-                <>
-                  <CheckCircle2 className="h-3 w-3 mr-1" />
-                  Ata Disponível
-                </>
-              ) : (
-                <>
-                  <Clock className="h-3 w-3 mr-1" />
-                  Gerando Ata...
-                </>
-              )}
+              <Icon className={`h-3 w-3 ${config.spin ? 'animate-spin' : ''}`} />
+              {config.label}
             </Badge>
           </div>
         </CardHeader>
@@ -123,20 +172,20 @@ export function CardReuniaoExecutivo({ reuniao, onExcluir }: CardReuniaoExecutiv
           )}
 
           {/* Participantes (para processamentos) */}
-          {!isAtaDisponivel && reuniao.participantes.length > 0 && (
+          {!isAtaDisponivel && (reuniao.participantes ?? []).length > 0 && (
             <div className="flex items-start gap-2">
               <Users className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
               <p className="text-sm text-muted-foreground">
-                {reuniao.participantes.slice(0, 4).join(', ')}
-                {reuniao.participantes.length > 4 && ` e mais ${reuniao.participantes.length - 4}`}
+                {(reuniao.participantes ?? []).slice(0, 4).join(', ')}
+                {(reuniao.participantes ?? []).length > 4 && ` e mais ${(reuniao.participantes ?? []).length - 4}`}
               </p>
             </div>
           )}
 
-          {/* Mensagem para processando */}
-          {!isAtaDisponivel && (
+          {/* Mensagem de status contextual */}
+          {!isAtaDisponivel && config.mensagem && (
             <p className="text-sm text-muted-foreground bg-muted/50 rounded-lg p-3">
-              ⏳ A ata desta reunião será gerada em breve...
+              {config.mensagem}
             </p>
           )}
 
