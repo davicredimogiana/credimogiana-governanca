@@ -17,7 +17,7 @@ export function useTarefas() {
     try {
       setLoading(true);
       const data = await api.get<TarefaDelegada[]>('/api/tarefas');
-      setTarefas(data);
+      setTarefas(data ?? []);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido';
       toast({ title: 'Erro ao carregar tarefas', description: message, variant: 'destructive' });

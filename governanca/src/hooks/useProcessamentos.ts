@@ -13,7 +13,7 @@ export function useProcessamentos(reuniaoId?: string) {
     try {
       const path = reuniaoId ? `/api/processamentos?reuniaoId=${reuniaoId}` : '/api/processamentos';
       const data = await api.get<ProcessamentoGravacao[]>(path);
-      setProcessamentos(data);
+      setProcessamentos(data ?? []);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido';
       console.error('Erro ao carregar processamentos:', message);

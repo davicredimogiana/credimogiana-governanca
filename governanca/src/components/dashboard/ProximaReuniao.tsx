@@ -67,7 +67,7 @@ export function ProximaReuniao({ reuniao, onVerDetalhes }: ProximaReuniaoProps) 
             </div>
             <div>
               <p className="text-xs text-primary-foreground/60">Participantes</p>
-              <p className="font-medium text-sm">{reuniao.participantes.length} pessoas</p>
+              <p className="font-medium text-sm">{(reuniao.participantes ?? []).length} pessoas</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -76,7 +76,7 @@ export function ProximaReuniao({ reuniao, onVerDetalhes }: ProximaReuniaoProps) 
             </div>
             <div>
               <p className="text-xs text-primary-foreground/60">Pautas</p>
-              <p className="font-medium text-sm">{reuniao.pautas.length} itens</p>
+              <p className="font-medium text-sm">{(reuniao.pautas ?? []).length} itens</p>
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export function ProximaReuniao({ reuniao, onVerDetalhes }: ProximaReuniaoProps) 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="flex -space-x-2">
-              {reuniao.participantes.slice(0, 5).map((p) => (
+              {(reuniao.participantes ?? []).slice(0, 5).map((p) => (
                 <div
                   key={p.id}
                   className="w-8 h-8 rounded-full bg-white/20 border-2 border-primary flex items-center justify-center"
@@ -96,10 +96,10 @@ export function ProximaReuniao({ reuniao, onVerDetalhes }: ProximaReuniaoProps) 
                   </span>
                 </div>
               ))}
-              {reuniao.participantes.length > 5 && (
+              {(reuniao.participantes ?? []).length > 5 && (
                 <div className="w-8 h-8 rounded-full bg-white/30 border-2 border-primary flex items-center justify-center">
                   <span className="text-xs font-medium">
-                    +{reuniao.participantes.length - 5}
+                    +{(reuniao.participantes ?? []).length - 5}
                   </span>
                 </div>
               )}

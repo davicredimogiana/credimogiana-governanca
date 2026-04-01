@@ -14,7 +14,7 @@ export function usePautas() {
       setLoading(true);
       setError(null);
       const data = await api.get<Pauta[]>('/api/pautas');
-      setPautas(data);
+      setPautas(data ?? []);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Erro desconhecido';
       setError(message);

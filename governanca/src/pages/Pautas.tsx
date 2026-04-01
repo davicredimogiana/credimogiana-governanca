@@ -296,14 +296,14 @@ const Pautas = () => {
               <ScrollArea className="max-h-[60vh] pr-4">
                 <div className="space-y-6 py-4">
                   {/* Objetivos */}
-                  {pautaSelecionada.objetivos.length > 0 && (
+                  {(pautaSelecionada.objetivos ?? []).length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-primary flex items-center gap-2">
                         <Target className="w-4 h-4" />
                         Objetivos
                       </h4>
                       <ul className="space-y-1 pl-4">
-                        {pautaSelecionada.objetivos.map((obj, i) => (
+                        {(pautaSelecionada.objetivos ?? []).map((obj, i) => (
                           <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
                             <span className="text-primary font-medium">{i + 1}.</span>
                             {obj}
@@ -324,11 +324,11 @@ const Pautas = () => {
                   )}
 
                   {/* Dados Apresentados */}
-                  {pautaSelecionada.dadosApresentados.length > 0 && (
+                  {(pautaSelecionada.dadosApresentados ?? []).length > 0 && (
                     <div className="space-y-3">
                       <h4 className="font-semibold text-primary">Dados Apresentados</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {pautaSelecionada.dadosApresentados.map((secao, i) => (
+                        {(pautaSelecionada.dadosApresentados ?? []).map((secao, i) => (
                           <div key={i} className="border rounded-lg p-3 bg-card">
                             <h5 className="font-medium text-sm text-foreground mb-2">{secao.titulo}</h5>
                             <div className="space-y-1">
@@ -346,13 +346,13 @@ const Pautas = () => {
                   )}
 
                   {/* Discussões */}
-                  {pautaSelecionada.discussoes.length > 0 && (
+                  {(pautaSelecionada.discussoes ?? []).length > 0 && (
                     <div className="space-y-3">
                       <h4 className="font-semibold text-primary flex items-center gap-2">
                         <MessageSquare className="w-4 h-4" />
                         Discussões
                       </h4>
-                      {pautaSelecionada.discussoes.map((disc, i) => (
+                      {(pautaSelecionada.discussoes ?? []).map((disc, i) => (
                         <div key={i} className="border-l-2 border-info pl-3">
                           <h5 className="font-medium text-sm text-foreground">{disc.topico}</h5>
                           <ul className="mt-1 space-y-1">
@@ -369,7 +369,7 @@ const Pautas = () => {
                   )}
 
                   {/* Deliberações */}
-                  {pautaSelecionada.deliberacoes.length > 0 && (
+                  {(pautaSelecionada.deliberacoes ?? []).length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-success flex items-center gap-2">
                         <CheckSquare className="w-4 h-4" />
@@ -377,7 +377,7 @@ const Pautas = () => {
                       </h4>
                       <div className="bg-success/10 border border-success/30 rounded-lg p-3">
                         <ul className="space-y-2">
-                          {pautaSelecionada.deliberacoes.map((delib, i) => (
+                          {(pautaSelecionada.deliberacoes ?? []).map((delib, i) => (
                             <li key={i} className="text-sm text-foreground flex items-start gap-2">
                               <CheckSquare className="w-4 h-4 text-success flex-shrink-0 mt-0.5" />
                               {delib}
@@ -389,7 +389,7 @@ const Pautas = () => {
                   )}
 
                   {/* Encaminhamentos */}
-                  {pautaSelecionada.encaminhamentos.length > 0 && (
+                  {(pautaSelecionada.encaminhamentos ?? []).length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-primary flex items-center gap-2">
                         <ArrowRight className="w-4 h-4" />
@@ -405,7 +405,7 @@ const Pautas = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {pautaSelecionada.encaminhamentos.map((enc, i) => (
+                            {(pautaSelecionada.encaminhamentos ?? []).map((enc, i) => (
                               <tr key={i} className="border-t">
                                 <td className="p-2 text-muted-foreground">{enc.acao}</td>
                                 <td className="p-2 font-medium">{enc.responsavel}</td>

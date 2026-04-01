@@ -55,7 +55,7 @@ export function ReuniaoCard({ reuniao, compacto = false, onClick }: ReuniaoCardP
             </span>
             <span className="flex items-center gap-1">
               <Users className="w-3.5 h-3.5" />
-              {reuniao.participantes.length}
+              {(reuniao.participantes ?? []).length}
             </span>
           </div>
         </div>
@@ -90,7 +90,7 @@ export function ReuniaoCard({ reuniao, compacto = false, onClick }: ReuniaoCardP
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Users className="w-4 h-4" />
-          <span>{reuniao.participantes.length} participantes</span>
+          <span>{(reuniao.participantes ?? []).length} participantes</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           {reuniao.local ? (
@@ -109,7 +109,7 @@ export function ReuniaoCard({ reuniao, compacto = false, onClick }: ReuniaoCardP
 
       <div className="flex items-center gap-3 pt-4 border-t border-border">
         <div className="flex -space-x-2">
-          {reuniao.participantes.slice(0, 4).map((p, i) => (
+          {(reuniao.participantes ?? []).slice(0, 4).map((p, i) => (
             <div
               key={p.id}
               className="w-8 h-8 rounded-full bg-primary/10 border-2 border-card flex items-center justify-center"
@@ -120,10 +120,10 @@ export function ReuniaoCard({ reuniao, compacto = false, onClick }: ReuniaoCardP
               </span>
             </div>
           ))}
-          {reuniao.participantes.length > 4 && (
+          {(reuniao.participantes ?? []).length > 4 && (
             <div className="w-8 h-8 rounded-full bg-muted border-2 border-card flex items-center justify-center">
               <span className="text-xs font-medium text-muted-foreground">
-                +{reuniao.participantes.length - 4}
+                +{(reuniao.participantes ?? []).length - 4}
               </span>
             </div>
           )}
