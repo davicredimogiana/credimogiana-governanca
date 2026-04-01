@@ -96,7 +96,7 @@ builder.Services.AddHttpClient("N8N", client =>
 });
 
 // ─── Worker: despacho confiável para o N8N (Outbox Pattern) ──────────────────
-builder.Services.AddHostedService<N8nDispatcherWorker>();
+builder.Services.AddHostedService<N8NDispatcherWorker>();
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 builder.Services.AddCors(options =>

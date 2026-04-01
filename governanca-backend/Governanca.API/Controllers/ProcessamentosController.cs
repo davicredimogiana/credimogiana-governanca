@@ -10,12 +10,7 @@ namespace Governanca.Api.Controllers;
 
 [ApiController]
 [Route("api/processamentos")]
-public class ProcessamentosController(
-    IProcessamentoRepository repository,
-    IWebhookOutboxRepository outboxRepository,
-    IStorageService storage,
-    IAmazonS3 s3Client,
-    IConfiguration configuration) : ControllerBase
+public class ProcessamentosController(IProcessamentoRepository repository, IWebhookOutboxRepository outboxRepository, IStorageService storage, IAmazonS3 s3Client, IConfiguration configuration) : ControllerBase
 {
     private readonly string _bucket = configuration["Minio:Bucket"] ?? "governanca-upload";
 
@@ -72,25 +67,25 @@ public class ProcessamentosController(
         await s3Client.PutObjectAsync(putRequest);
 
         // ── Deserializar metadados ────────────────────────────────────────────────
-        var participantes    = DeserializarLista<string>(participantesJson) ?? [];
-        var assinaturas      = DeserializarLista<AssinaturaProcessamento>(assinaturasJson) ?? [];
-        var tarefasMarcadas  = DeserializarLista<Guid>(tarefasMarcadasJson) ?? [];
+        var participantes = DeserializarLista<string>(participantesJson) ?? [];
+        var assinaturas = DeserializarLista<AssinaturaProcessamento>(assinaturasJson) ?? [];
+        var tarefasMarcadas = DeserializarLista<Guid>(tarefasMarcadasJson) ?? [];
 
         Guid? reuniaoGuid = Guid.TryParse(reuniaoId, out var rg) ? rg : null;
-        Guid? pautaGuid   = Guid.TryParse(pautaId,   out var pg) ? pg : null;
+        Guid? pautaGuid = Guid.TryParse(pautaId, out var pg) ? pg : null;
 
         // ── Registrar processamento no banco ──────────────────────────────────────
         var processamento = new ProcessamentoGravacao
         {
-            ReuniaoId       = reuniaoGuid,
-            PautaId         = pautaGuid,
-            NomeArquivo     = arquivo.FileName,
-            ObjectKey       = objectKey,
-            Status          = "aguardando",
-            EtapaAtual      = "Arquivo recebido. Aguardando processamento.",
-            Progresso       = 0,
-            Participantes   = participantes,
-            Assinaturas     = assinaturas,
+            ReuniaoId = reuniaoGuid,
+            PautaId = pautaGuid,
+            NomeArquivo = arquivo.FileName,
+            ObjectKey = objectKey,
+            Status = "aguardando",
+            EtapaAtual = "Arquivo recebido. Aguardando processamento.",
+            Progresso = 0,
+            Participantes = participantes,
+            Assinaturas = assinaturas,
             TarefasMarcadas = tarefasMarcadas,
         };
 
@@ -116,9 +111,9 @@ public class ProcessamentosController(
         if (string.IsNullOrWhiteSpace(nomeArquivo))
             return BadRequest(new { message = "nomeArquivo é obrigatório." });
 
-        var ext       = Path.GetExtension(nomeArquivo);
+        var ext = Path.GetExtension(nomeArquivo);
         var objectKey = $"gravacoes/{Guid.NewGuid()}{ext}";
-        var mime      = contentType ?? InferirContentType(ext);
+        var mime = contentType ?? InferirContentType(ext);
 
         var uploadUrl = await storage.GerarUrlUploadAsync(objectKey, mime, expiresInMinutes: 30);
 
@@ -155,15 +150,15 @@ public class ProcessamentosController(
     {
         var processamento = new ProcessamentoGravacao
         {
-            ReuniaoId       = input.ReuniaoId,
-            PautaId         = input.PautaId,
-            NomeArquivo     = input.NomeArquivo ?? "gravacao",
-            ObjectKey       = input.ObjectKey,
-            Status          = "aguardando",
-            EtapaAtual      = "Arquivo recebido no storage. Aguardando processamento.",
-            Progresso       = 0,
-            Participantes   = input.Participantes ?? [],
-            Assinaturas     = input.Assinaturas ?? [],
+            ReuniaoId = input.ReuniaoId,
+            PautaId = input.PautaId,
+            NomeArquivo = input.NomeArquivo ?? "gravacao",
+            ObjectKey = input.ObjectKey,
+            Status = "aguardando",
+            EtapaAtual = "Arquivo recebido no storage. Aguardando processamento.",
+            Progresso = 0,
+            Participantes = input.Participantes ?? [],
+            Assinaturas = input.Assinaturas ?? [],
             TarefasMarcadas = input.TarefasMarcadas ?? [],
         };
 
@@ -210,21 +205,21 @@ public class ProcessamentosController(
     /// </summary>
     private string MontarPayload(ProcessamentoGravacao processamento, string? objectKey)
     {
-        var minioEndpoint  = configuration["Minio:Endpoint"] ?? "http://localhost:8000";
-        var callbackBase   = configuration["Api:CallbackBaseUrl"] ?? $"http://localhost:5000";
+        var minioEndpoint = configuration["Minio:Endpoint"] ?? "http://localhost:8000";
+        var callbackBase = configuration["Api:CallbackBaseUrl"] ?? $"http://localhost:5000";
 
         var payload = new
         {
             processamentoId = processamento.Id,
-            reuniaoId       = processamento.ReuniaoId,
-            pautaId         = processamento.PautaId,
-            nomeArquivo     = processamento.NomeArquivo,
-            objectKey       = objectKey,
-            bucket          = _bucket,
-            minioEndpoint   = minioEndpoint,
-            participantes   = processamento.Participantes,
-            criadoEm        = processamento.CreatedAt,
-            callbackUrl     = $"{callbackBase}/api/processamentos/{processamento.Id}",
+            reuniaoId = processamento.ReuniaoId,
+            pautaId = processamento.PautaId,
+            nomeArquivo = processamento.NomeArquivo,
+            objectKey = objectKey,
+            bucket = _bucket,
+            minioEndpoint = minioEndpoint,
+            participantes = processamento.Participantes,
+            criadoEm = processamento.CreatedAt,
+            callbackUrl = $"{callbackBase}/api/processamentos/{processamento.Id}",
         };
 
         return JsonSerializer.Serialize(payload, new JsonSerializerOptions
@@ -242,14 +237,14 @@ public class ProcessamentosController(
 
     private static string InferirContentType(string ext) => ext.ToLowerInvariant() switch
     {
-        ".mp3"  => "audio/mpeg",
-        ".mp4"  => "audio/mp4",
-        ".m4a"  => "audio/mp4",
-        ".wav"  => "audio/wav",
-        ".ogg"  => "audio/ogg",
+        ".mp3" => "audio/mpeg",
+        ".mp4" => "audio/mp4",
+        ".m4a" => "audio/mp4",
+        ".wav" => "audio/wav",
+        ".ogg" => "audio/ogg",
         ".webm" => "audio/webm",
-        ".aac"  => "audio/aac",
-        _       => "application/octet-stream"
+        ".aac" => "audio/aac",
+        _ => "application/octet-stream"
     };
 }
 

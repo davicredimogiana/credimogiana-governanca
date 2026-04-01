@@ -15,10 +15,7 @@ namespace Governanca.API.Workers;
 ///   - Após atingir max_tentativas, a mensagem fica com status 'erro' para
 ///     análise manual sem bloquear a fila.
 /// </summary>
-public class N8nDispatcherWorker(
-    IServiceScopeFactory scopeFactory,
-    ILogger<N8nDispatcherWorker> logger,
-    IHttpClientFactory httpClientFactory) : BackgroundService
+public class N8NDispatcherWorker(IServiceScopeFactory scopeFactory, ILogger<N8NDispatcherWorker> logger, IHttpClientFactory httpClientFactory) : BackgroundService
 {
     private static readonly TimeSpan PollingInterval = TimeSpan.FromSeconds(15);
 
@@ -47,7 +44,7 @@ public class N8nDispatcherWorker(
     private async Task ProcessarFilaAsync(CancellationToken ct)
     {
         using var scope = scopeFactory.CreateScope();
-        var outboxRepo      = scope.ServiceProvider.GetRequiredService<IWebhookOutboxRepository>();
+        var outboxRepo = scope.ServiceProvider.GetRequiredService<IWebhookOutboxRepository>();
         var configuracaoRepo = scope.ServiceProvider.GetRequiredService<IConfiguracaoRepository>();
 
         // ── 1. Buscar URL do webhook nas configurações ────────────────────────

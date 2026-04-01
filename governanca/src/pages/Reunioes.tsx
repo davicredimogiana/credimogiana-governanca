@@ -33,16 +33,16 @@ const Reunioes = () => {
   const [busca, setBusca] = useState("");
 
   const reunioesFiltradas = reunioes.filter((reuniao) => {
-    const matchBusca = 
+    const matchBusca =
       reuniao.titulo.toLowerCase().includes(busca.toLowerCase()) ||
       reuniao.participantes?.some(p => p.toLowerCase().includes(busca.toLowerCase())) ||
       reuniao.resumo_executivo?.toLowerCase().includes(busca.toLowerCase());
-    
-    const matchStatus = 
+
+    const matchStatus =
       filtroStatus === "todas" ||
       (filtroStatus === "com_ata" && reuniao.status === "ata_disponivel") ||
       (filtroStatus === "aguardando" && reuniao.status === "processando");
-    
+
     return matchBusca && matchStatus;
   });
 
@@ -124,8 +124,8 @@ const Reunioes = () => {
                 <Button variant="outline" size="icon" onClick={refetch} title="Atualizar">
                   <RefreshCw className="w-4 h-4" />
                 </Button>
-                
-                <EnviarGravacaoDialog />
+
+                <EnviarGravacaoDialog onSuccess={refetch} />
               </div>
             </div>
           </CardContent>
@@ -137,8 +137,8 @@ const Reunioes = () => {
             <CardContent className="p-12 text-center">
               <CalendarDays className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
               <h3 className="text-lg font-medium text-foreground mb-2">
-                {busca || filtroStatus !== "todas" 
-                  ? "Nenhuma reunião encontrada" 
+                {busca || filtroStatus !== "todas"
+                  ? "Nenhuma reunião encontrada"
                   : "Nenhuma reunião registrada ainda"}
               </h3>
               <p className="text-muted-foreground mb-6">
@@ -154,9 +154,9 @@ const Reunioes = () => {
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {reunioesFiltradas.map((reuniao) => (
-              <CardReuniaoExecutivo 
-                key={reuniao.id} 
-                reuniao={reuniao} 
+              <CardReuniaoExecutivo
+                key={reuniao.id}
+                reuniao={reuniao}
                 onExcluir={excluirReuniao}
               />
             ))}

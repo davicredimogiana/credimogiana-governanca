@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,34 +8,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Progress } from '@/components/ui/progress';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
-  Send,
-  Upload,
-  FileAudio,
-  Users,
-  Target,
-  MessageSquare,
-  CheckSquare,
-  Loader2,
-  X,
-  Plus,
-  AlertCircle,
-  CloudUpload,
-  Clock,
-} from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
+import { Send, Upload, FileAudio, Users, Target, MessageSquare, CheckSquare, Loader2, X, Plus, AlertCircle, CloudUpload, Clock, } from 'lucide-react';
 import { SignatureCanvas } from '@/components/ui/signature-canvas';
 import { useReunioes, useTarefas, useMembros, type ReuniaoDB, type TarefaDB } from '@/hooks/useTarefas';
 import { useToast } from '@/hooks/use-toast';
@@ -52,16 +19,15 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import type { Pauta } from '@/types/api';
 
-interface Assinatura {
-  nome: string;
-  imagem: string | null;
-  hora: string;
+interface Assinatura { nome: string; imagem: string | null; hora: string; }
+
+interface EnviarGravacaoDialogProps {
+  onSuccess?: () => void | Promise<void>;
 }
 
-export function EnviarGravacaoDialog() {
+export function EnviarGravacaoDialog({ onSuccess }: EnviarGravacaoDialogProps) {
   const { reunioes, loading: loadingReunioes } = useReunioes();
   const { tarefas } = useTarefas();
-  const { membros } = useMembros(true);
   const { toast } = useToast();
 
   const [open, setOpen] = useState(false);
@@ -227,6 +193,9 @@ export function EnviarGravacaoDialog() {
 
       setUploadProgress(100);
       setUploadEtapa('Concluído!');
+      if (onSuccess) {
+        await onSuccess();
+      }
       toast({ title: 'Gravação enviada!', description: 'O arquivo foi salvo no storage e o processamento foi registrado.' });
       resetForm();
       setOpen(false);
