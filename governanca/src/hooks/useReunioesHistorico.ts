@@ -49,13 +49,14 @@ function mapearStatus(backendStatus: string, temAta: boolean): StatusReuniao {
   if (temAta) return 'ata_disponivel';
 
   switch (backendStatus?.toLowerCase()) {
-    case 'aguardando':    return 'aguardando';
-    case 'processando':   return 'processando';
-    case 'transcrevendo': return 'transcrevendo';
-    case 'analisando':    return 'analisando';
-    case 'concluido':     return 'concluido';   // concluido SEM ata
-    case 'erro':          return 'erro';
-    default:              return 'processando'; // fallback seguro
+    case 'ata_disponivel': return 'ata_disponivel'; // backend já sinalizou diretamente
+    case 'aguardando':     return 'aguardando';
+    case 'processando':    return 'processando';
+    case 'transcrevendo':  return 'transcrevendo';
+    case 'analisando':     return 'analisando';
+    case 'concluido':      return 'concluido';   // concluido SEM ata
+    case 'erro':           return 'erro';
+    default:               return 'processando'; // fallback seguro
   }
 }
 
