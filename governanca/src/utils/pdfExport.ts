@@ -694,12 +694,6 @@ export function exportarAtaPDF(
 
   doc.setFontSize(10);
   doc.text(`Data: ${dataFormatada}`, 18, yPos + 8);
-  
-  
-  
-  let infoX = 18;
-  }
-  }
 
   yPos += 28;
   
