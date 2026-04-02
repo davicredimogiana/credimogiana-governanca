@@ -44,6 +44,8 @@ builder.Services.AddScoped<IPautaRepository, PautaRepository>();
 builder.Services.AddScoped<IProcessamentoRepository, ProcessamentoRepository>();
 builder.Services.AddScoped<IEnvioEmailRepository, EnvioEmailRepository>();
 builder.Services.AddScoped<IWebhookOutboxRepository, WebhookOutboxRepository>();
+builder.Services.AddScoped<IAtaWriteRepository, AtaWriteRepository>();
+builder.Services.AddScoped<IN8NAtaCallbackService, N8NAtaCallbackService>();
 
 // ─── MinIO (S3-compatible) ────────────────────────────────────────────────────
 var minioInternalEndpoint = builder.Configuration["Minio:Endpoint"] ?? "http://minio:9000";
