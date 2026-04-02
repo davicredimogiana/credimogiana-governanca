@@ -19,6 +19,38 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { exportarAtaPDF } from "@/utils/pdfExport";
 import React from "react";
+import type { Ata } from "@/types/api";
+
+
+interface DecisaoIA {
+  id: string;
+  descricao: string;
+  responsavel: string | null;
+  prazo: string | null;
+  status: string;
+}
+
+interface AcaoIA {
+  id: string;
+  descricao: string;
+  responsavel: string | null;
+  prazo: string | null;
+  status: string;
+}
+
+interface RiscoIA {
+  id: string;
+  descricao: string;
+  severidade: string | null;
+  mencoes: number;
+}
+
+interface OportunidadeIA {
+  id: string;
+  descricao: string;
+  potencial: string | null;
+  mencoes: number;
+}
 
 interface Props {
   open: boolean;
@@ -264,16 +296,8 @@ export function VisualizarAtaDialog({
 }: Props) {
   if (!ata) return null;
 
-  const dataAta = new Date(ata.geradaEm);
-  const dataValida = !Number.isNaN(dataAta.getTime());
-
-  const titulo =
-    ata.analise?.resumo?.substring(0, 60)?.trim() ||
-    `Ata de ${dataValida ? format(dataAta, "dd/MM/yyyy") : "data inválida"}`;
-
-  const dataFormatada = dataValida
-    ? format(dataAta, "dd 'de' MMMM 'de' yyyy", { locale: ptBR })
-    : "Data inválida";
+  const titulo = ata.reuniao?.titulo || `Ata de ${format(new Date(ata.geradaEm), "dd/MM/yyyy")}`;
+  const dataFormatada = format(new Date(ata.geradaEm), "dd 'de' MMMM 'de' yyyy", { locale: ptBR });
 
   const handleExportPDF = () => {
     exportarAtaPDF(ata, decisoes, acoes, riscos, oportunidades);
@@ -317,21 +341,33 @@ export function VisualizarAtaDialog({
 
         <ScrollArea className="max-h-[calc(95vh-120px)]">
           <div className="p-6 space-y-6">
-            {resumoExibir && (
-              <Card className="border-primary/20 bg-primary/5">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center gap-2 text-primary">
-                    <FileText className="w-5 h-5" />
-                    Resumo Executivo
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {resumoExibir}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
+            {/* Resumo Executivo */}
+            {(() => {
+              const resumoOriginal = ata.analise?.resumo;
+              let resumoExibir = resumoOriginal || '';
+              
+              if (isResumoInvalido(resumoOriginal)) {
+                resumoExibir = extrairResumoDoMarkdown(ata.conteudoMarkdown);
+              }
+              
+              if (!resumoExibir) return null;
+              
+              return (
+                <Card className="border-primary/20 bg-primary/5">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="flex items-center gap-2 text-primary">
+                      <FileText className="w-5 h-5" />
+                      Resumo Executivo
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                      {resumoExibir}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })()}
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
